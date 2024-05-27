@@ -47,7 +47,7 @@ public class DynamicThreadPoolService implements IDynamicThreadPoolService {
             threadPoolVOS.add(threadPoolConfigVO);
 
         }
-        return Collections.emptyList();
+        return threadPoolVOS;
     }
 
     @Override
