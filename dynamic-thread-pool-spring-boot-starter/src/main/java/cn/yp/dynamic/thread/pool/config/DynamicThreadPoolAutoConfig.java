@@ -1,5 +1,6 @@
 package cn.yp.dynamic.thread.pool.config;
 
+import cn.yp.dynamic.thread.pool.domain.DynamicThreadPoolService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,13 +23,13 @@ public class DynamicThreadPoolAutoConfig {
     private final Logger logger = LoggerFactory.getLogger(DynamicThreadPoolAutoConfig.class);
 
     @Bean("dynamicThreadPoolService")
-    public String dynamicThreadPoolService(ApplicationContext applicationContext, Map<String, ThreadPoolExecutor> threadPoolExecutorMap) {
+    public DynamicThreadPoolService dynamicThreadPoolService(ApplicationContext applicationContext, Map<String, ThreadPoolExecutor> threadPoolExecutorMap) {
         String applicationName = applicationContext.getEnvironment().getProperty("spring.application.name");
         if (StringUtils.isBlank(applicationName)) {
             applicationName = "缺省的";
             logger.warn("动态线程池，启动提示，SpringBoot 应用未配置 spring.application.name 无法获取应用名称");
         }
         logger.info("线程池信息：{}", threadPoolExecutorMap.keySet());
-        return applicationName;
+        return new DynamicThreadPoolService(applicationName, threadPoolExecutorMap);
     }
 }
